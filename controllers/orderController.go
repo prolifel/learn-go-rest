@@ -54,7 +54,6 @@ func (databaseConnection *DatabaseConnection) CreateOrder(c *gin.Context) {
 
 func (databaseConnection *DatabaseConnection) UpdateOrder(c *gin.Context) {
 	id := c.Query("id")
-	fmt.Println(id)
 
 	var (
 		order  models.Orders
@@ -80,6 +79,32 @@ func (databaseConnection *DatabaseConnection) UpdateOrder(c *gin.Context) {
 		result = gin.H{
 			"result": order,
 			"status": "update success",
+		}
+	}
+
+	c.JSON(http.StatusOK, result)
+}
+
+func (databaseConnection *DatabaseConnection) DeleteOrder(c *gin.Context) {
+	id := c.Query("id")
+
+	var (
+		order  models.Orders
+		result gin.H
+	)
+
+	if err := databaseConnection.DB.First(&order, id).Error; err != nil {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": "order not found"})
+		return
+	}
+
+	if err := databaseConnection.DB.Model(&order).Delete(&order).Error; err != nil {
+		result = gin.H{
+			"result": "delete failed",
+		}
+	} else {
+		result = gin.H{
+			"status": "delete success",
 		}
 	}
 
