@@ -51,3 +51,37 @@ func (databaseConnection *DatabaseConnection) CreateOrder(c *gin.Context) {
 
 	c.JSON(http.StatusOK, result)
 }
+
+func (databaseConnection *DatabaseConnection) UpdateOrder(c *gin.Context) {
+	id := c.Query("id")
+	fmt.Println(id)
+
+	var (
+		order  models.Orders
+		result gin.H
+	)
+
+	if err := databaseConnection.DB.First(&order, id).Error; err != nil {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": "order not found"})
+		return
+	}
+
+	if err := c.BindJSON(&order); err != nil {
+		fmt.Println(err)
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "form data error"})
+		return
+	}
+
+	if err := databaseConnection.DB.Model(&order).Updates(&order).Error; err != nil {
+		result = gin.H{
+			"result": "update failed",
+		}
+	} else {
+		result = gin.H{
+			"result": order,
+			"status": "update success",
+		}
+	}
+
+	c.JSON(http.StatusOK, result)
+}

@@ -26,5 +26,6 @@ func main() {
 	})
 	router.GET("/orders", databaseConnection.GetOrders)
 	router.POST("/orders", databaseConnection.CreateOrder)
+	router.PUT("/orders", databaseConnection.UpdateOrder)
 	router.Run(":3000")
 }
