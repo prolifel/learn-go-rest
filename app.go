@@ -8,6 +8,11 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+// Seeding the database
+func init() {
+	config.Seeder()
+}
+
 func main() {
 	db := config.DBInit()
 	databaseConnection := &controllers.DatabaseConnection{DB: db}
