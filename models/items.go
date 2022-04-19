@@ -6,5 +6,4 @@ type Items struct {
 	Description string `gorm:"type:varchar(200)"`
 	Quantity    uint
 	Order_id    uint
-	Order       Orders `gorm:"foreignkey:Order_id"`
 }

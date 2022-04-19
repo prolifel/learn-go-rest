@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (databaseConnection *DatabaseConnection) GetOrder(c *gin.Context) {
+func (databaseConnection *DatabaseConnection) GetOrders(c *gin.Context) {
 	var (
 		order  []models.Orders
 		result gin.H

@@ -19,6 +19,6 @@ func main() {
 
 	router := gin.Default()
 
-	router.GET("/orders", databaseConnection.GetItem)
+	router.GET("/orders", databaseConnection.GetOrders)
 	router.Run(":3000")
 }
