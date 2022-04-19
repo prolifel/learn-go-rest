@@ -19,6 +19,12 @@ func main() {
 
 	router := gin.Default()
 
+	router.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "orders api served 🚀",
+		})
+	})
 	router.GET("/orders", databaseConnection.GetOrders)
+	router.POST("/orders", databaseConnection.CreateOrder)
 	router.Run(":3000")
 }
